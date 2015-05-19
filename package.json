@@ -1,0 +1,21 @@
+{
+  "name": "@vnn/the-bus",
+  "version": "1.0.0",
+  "description": "A deployment solution for JavaScript applications built on Flightplan JS",
+  "author": "Kristopher Wilson <kristopherwilson@gmail.com>",
+  "homepage": "https://github.com/mrkrstphr/the-bus",
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrkrstphr/the-bus.git"
+  },
+  "devDependencies": {
+    "flightplan": "^0.6.2",
+    "hipchatter": "^0.2.0"
+  },
+  "dependencies": {
+    "lodash": "^3.9.0",
+    "require-dir": "^0.3.0"
+  }
+}
