@@ -45,6 +45,7 @@ module.exports = function(plan, config) {
   });
 
   plan.remote('deploy-scm',function (remote) {
+    remote.exec('chmod -R g+w ' + config.deployTo)
     // silly:
     remote.exec('cd ' + config.deployTo + ' && cp -R ' + config.tmp + '/dist/* .');
     remote.exec('cd ' + config.deployTo + ' && rm -rf tmp');
