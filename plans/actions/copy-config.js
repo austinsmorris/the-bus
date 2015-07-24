@@ -4,6 +4,9 @@ module.exports = function(config, server) {
   var configFile = null;
 
   switch (server._context.target) {
+    case 'demo':
+      configFile = 'config/config-demo.js';
+      break;
     case 'staging':
       configFile = 'config/config-staging.js';
       break;
