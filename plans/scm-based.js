@@ -1,5 +1,6 @@
 'use strict';
 
+var argv = require('yargs').argv;
 var createDeployment = require('./actions/create-deployment');
 var copyConfig = require('./actions/copy-config');
 var createSymlink = require('./actions/create-symlink');
@@ -7,6 +8,10 @@ var cleanupOldReleases = require('./actions/cleanup-old-releases');
 var hipchat = require('../util/hipchat-notification');
 
 module.exports = function(plan, config) {
+  if (argv.scmuser) {
+    config.scmuser = argv.scmuser;
+  }
+
   plan.remote('deploy-scm', function (remote) {
     // let's make sure we can connect first...
   });
@@ -21,7 +26,13 @@ module.exports = function(plan, config) {
 
     local.log('Checking out source code with branch [master]...');
     local.exec('mkdir -p ' + config.tmp);
-    local.exec('git clone --depth=1 ' + source + ' ' + config.tmp, {silent: true});
+
+    if (argv.branch) {
+      local.exec('git clone ' + source + ' ' + config.tmp, {silent: true});
+      local.exec('cd ' + config.tmp + ' && git checkout ' + argv.branch);
+    } else {
+      local.exec('git clone --depth=1 ' + source + ' ' + config.tmp, {silent: true});
+    }
 
     copyConfig(config, local);
 
