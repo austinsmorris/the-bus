@@ -5,7 +5,7 @@ var createDeployment = require('./actions/create-deployment');
 var copyConfig = require('./actions/copy-config');
 var createSymlink = require('./actions/create-symlink');
 var cleanupOldReleases = require('./actions/cleanup-old-releases');
-var hipchat = require('../util/hipchat-notification');
+// var hipchat = require('../util/hipchat-notification');
 
 module.exports = function(plan, config) {
   if (argv.scmuser) {
@@ -17,8 +17,8 @@ module.exports = function(plan, config) {
   });
 
   plan.local('deploy-scm', function (local) {
-    var chatNotification = new hipchat(config, local);
-    chatNotification.start();
+    // var chatNotification = new hipchat(config, local);
+    // chatNotification.start();
 
     var source = config.source.replace('{scmuser}', config.scmuser);
 
@@ -69,7 +69,7 @@ module.exports = function(plan, config) {
     local.log('Cleaning up tmp/');
     local.exec('rm -rf ' + config.tmp);
 
-    var chatNotification = new hipchat(config, local);
-    chatNotification.finish();
+    // var chatNotification = new hipchat(config, local);
+    // chatNotification.finish();
   });
 };
