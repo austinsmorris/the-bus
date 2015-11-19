@@ -4,7 +4,7 @@ var createDeployment = require('./actions/create-deployment');
 var copyConfig = require('./actions/copy-config');
 var createSymlink = require('./actions/create-symlink');
 var cleanupOldReleases = require('./actions/cleanup-old-releases');
-var hipchat = require('../util/hipchat-notification');
+// var hipchat = require('../util/hipchat-notification');
 
 module.exports = function(plan, config) {
   plan.local('deploy-local', function (local) {
@@ -12,8 +12,8 @@ module.exports = function(plan, config) {
       plan.abort('local deployments to production are forbidden');
     }
 
-    var chatNotification = new hipchat(local);
-    chatNotification.start(true);
+    // var chatNotification = new hipchat(local);
+    // chatNotification.start(true);
 
     var buildCmd = plan.runtime.options.buildCmd;
 
@@ -47,7 +47,7 @@ module.exports = function(plan, config) {
   plan.local('deploy-local', function (local) {
     local.exec('mv ./src/config.js.tmp ./src/config.js');
 
-    var chatNotification = new hipchat(local);
-    chatNotification.finish(true);
+    // var chatNotification = new hipchat(local);
+    // chatNotification.finish(true);
   });
 };
