@@ -44,10 +44,13 @@ module.exports = function(plan, config) {
     // see if there's a previous build. If not, see if it's current.
     try {
       var stats = fs.statSync(config.tmp);
+
+      local.exec('cd ' + config.tmp + ' && git fetch origin', {silent: true}).stdout;
+
       var localRev = local.exec('cd ' + config.tmp + ' && git rev-parse HEAD', {silent: true}).stdout;
       var remoteRev = local.exec('cd ' + config.tmp + ' && git rev-parse origin/master', {silent: true}).stdout;
 
-      if (localRev !== remoteRev) {
+      if (localRev.trim() !== remoteRev.trim()) {
         local.exec('rm -rf ' + config.tmp);
         checkoutProject();
       }
