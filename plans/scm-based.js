@@ -39,22 +39,27 @@ module.exports = function(plan, config) {
 
     var source = config.source.replace('{scmuser}', config.scmuser);
 
-    config.tmp = 'tmp/deploy'; //' + (new Date().getTime());
+    if (argv.cache) {
+      config.tmp = 'tmp/deploy';
 
-    // see if there's a previous build. If not, see if it's current.
-    try {
-      var stats = fs.statSync(config.tmp);
+      // see if there's a previous build. If so, see if it's current.
+      try {
+        var stats = fs.statSync(config.tmp);
 
-      local.exec('cd ' + config.tmp + ' && git fetch origin', {silent: true}).stdout;
+        local.exec('cd ' + config.tmp + ' && git fetch origin', {silent: true}).stdout;
 
-      var localRev = local.exec('cd ' + config.tmp + ' && git rev-parse HEAD', {silent: true}).stdout;
-      var remoteRev = local.exec('cd ' + config.tmp + ' && git rev-parse origin/master', {silent: true}).stdout;
+        var localRev = local.exec('cd ' + config.tmp + ' && git rev-parse HEAD', {silent: true}).stdout;
+        var remoteRev = local.exec('cd ' + config.tmp + ' && git rev-parse origin/master', {silent: true}).stdout;
 
-      if (localRev.trim() !== remoteRev.trim()) {
-        local.exec('rm -rf ' + config.tmp);
+        if (localRev.trim() !== remoteRev.trim()) {
+          local.exec('rm -rf ' + config.tmp);
+          checkoutProject();
+        }
+      } catch (e) {
         checkoutProject();
       }
-    } catch (e) {
+    } else {
+      config.tmp = 'tmp/' + (new Date().getTime());
       checkoutProject();
     }
 
@@ -87,8 +92,8 @@ module.exports = function(plan, config) {
   });
 
   plan.local('deploy-scm', function (local) {
-    // only cleanup if we're deploying a non-master branch
-    if (argv.branch) {
+    // only cleanup if we're deploying a non-master branch or not using the cache
+    if (argv.branch || !argv.cache) {
       local.log('Cleaning up tmp/');
       local.exec('rm -rf ' + config.tmp);
     }
