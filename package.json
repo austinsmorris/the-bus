@@ -14,6 +14,7 @@
     "flightplan": "^0.6.2",
     "hipchatter": "^0.2.0",
     "lodash": "^3.9.0",
-    "require-dir": "^0.3.0"
+    "require-dir": "^0.3.0",
+    "yargs": "^3.30.0"
   }
 }
