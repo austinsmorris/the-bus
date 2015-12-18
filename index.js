@@ -1,11 +1,11 @@
 'use strict';
 
-var requireDir = require('require-dir');
+const requireDir = require('require-dir');
 
-module.exports = function (flightplan, config) {
-  var plans = requireDir('./plans/');
+module.exports = (flightplan, config) => {
+  const plans = requireDir('./plans/');
 
-  for (var plan in plans) {
+  for (const plan in plans) {
     plans[plan](flightplan, config);
   }
 };

@@ -6,12 +6,12 @@
  * @param stage
  * @returns string
  */
-module.exports = function (stage) {
+module.exports = (stage) => {
   if (process.env['HIPCHAT_USER']) {
     return process.env['HIPCHAT_USER'];
   }
 
-  var user = stage.exec('git config user.name', {silent: true}).stdout.trim();
+  const user = stage.exec('git config user.name', {silent: true}).stdout.trim();
 
   if (user) {
     return user;
@@ -19,4 +19,3 @@ module.exports = function (stage) {
 
   return process.env['USER'];
 };
-

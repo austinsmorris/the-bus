@@ -1,21 +1,21 @@
 'use strict';
 
-var hipchatter = require('hipchatter');
-var human = require('./human');
-var _ = require('lodash');
+const hipchatter = require('hipchatter'),
+  human = require('./human'),
+  _ = require('lodash');
 
-var chat = new hipchatter();
+const chat = new hipchatter();
 
-var HipChatNotifier = function (config, stage) {
+let HipChatNotifier = function (config, stage) {
   this.config = config;
   this.stage = stage._context.target;
   this.human = human(stage);
   this.rooms = config.hipchat ? (config.hipchat.rooms[this.stage] ? config.hipchat.rooms[this.stage] : {}) : {};
 };
 
-HipChatNotifier.prototype.start = function (isLocal) {
+HipChatNotifier.prototype.start = (isLocal) => {
   var that = this;
-  _.forEach(this.rooms, function (key, room) {
+  _.forEach(this.rooms, (key, room) => {
     chat.notify(
       room,
       {
@@ -23,14 +23,14 @@ HipChatNotifier.prototype.start = function (isLocal) {
         color: 'yellow',
         token: key
       },
-      function () {}
+      () => {}
     );
   });
 };
 
-HipChatNotifier.prototype.finish = function (isLocal) {
+HipChatNotifier.prototype.finish = (isLocal) => {
   var that = this;
-  _.forEach(this.rooms, function (token, room) {
+  _.forEach(this.rooms, (token, room) => {
     chat.notify(
       room,
       {
@@ -38,7 +38,7 @@ HipChatNotifier.prototype.finish = function (isLocal) {
         color: 'green',
         token: token
       },
-      function () {}
+      () => {}
     );
   });
 };

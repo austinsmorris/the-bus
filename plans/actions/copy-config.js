@@ -1,7 +1,7 @@
 'use strict';
 
-module.exports = function(config, server) {
-  var configFile = null;
+module.exports = (config, server) => {
+  let configFile = null;
 
   switch (server._context.target) {
     case 'demo':
