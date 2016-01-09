@@ -4,6 +4,9 @@ module.exports = (config, server) => {
   let configFile = null;
 
   switch (server._context.target) {
+    case 'december':
+      configFile = 'config/config-december.js';
+      break;
     case 'demo':
       configFile = 'config/config-demo.js';
       break;
